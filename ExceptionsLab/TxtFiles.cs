@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace ExceptionsLab;
 
-public class Files(string folderPath, string[] requiredFiles)
+public class TxtFiles(string folderPath, string[] requiredFiles)
 {
 
     public void ReadFiles()
@@ -19,6 +19,9 @@ public class Files(string folderPath, string[] requiredFiles)
                 case { Count: 0 }:
                     //nothing
                     break;
+                case { Count : 20}:
+                    Console.WriteLine("All files are missing");
+                    return;
                 default:
                     WriteMissingFiles(folderPath, missingFiles);
                     break;
@@ -55,21 +58,39 @@ public class Files(string folderPath, string[] requiredFiles)
         {
             Console.WriteLine("Error: The directory was not found");
         }
-        catch(FileNotFoundException)
-        {
-            Console.WriteLine("Error: no files was found");
-        }
     }
     static int WriteMissingFiles(string folderPath, IEnumerable<string> missing)
     {
+        try
+        {
         string reportFile = Path.Combine(folderPath, "no_file.txt");
         File.WriteAllLines(reportFile, missing);
+        }
+        catch(UnauthorizedAccessException)
+        {
+            Console.WriteLine("Can't acces file");
+        }
+        catch(IOException)
+        {
+            Console.WriteLine("Some input-output error");
+        }
         return 1;
     }
      static int WriteBadOverflowFiles(string logFile, string filePath, string errorType)
     {
-        string fileName = Path.GetFileName(filePath);
-        File.AppendAllText(logFile, $"{errorType}: {fileName}");
+        try
+        {
+            string fileName = Path.GetFileName(filePath);
+            File.AppendAllText(logFile, $"{errorType}: {fileName} ");
+        }
+        catch(UnauthorizedAccessException)
+        {
+            Console.WriteLine("Can't acces file");
+        }
+        catch(IOException)
+        {
+            Console.WriteLine("Some input-output errors");
+        }
         return 1;
     }
 }

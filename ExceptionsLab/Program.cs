@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Data.SqlTypes;
 using ExceptionsLab;
-namespace Lab
+namespace ExceptionsLab
 {
     class Lab
     {
         static void Main()
         {
-            //TODO
+            string[] requiredFiles=new string[] {"10.txt","11.txt","12.txt","13.txt","14.txt","15.txt","16.txt","17.txt","18.txt","19.txt","20.txt","21.txt","22.txt","23.txt","24.txt","25.txt","26.txt","27.txt","28.txt","29.txt"};
+            string path=@"C:\VSProjects\Labs\Grade - 2\Git\Exceptions\ExceptionsLab\TxtFiles";
+            TxtFiles txtFiles=new TxtFiles(path,requiredFiles);
+            txtFiles.ReadFiles();
         }
     }
 }
